@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import es.cboot.fruitshop.model.Product;
+import es.cboot.fruitshop.utils.Utils;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -39,7 +40,7 @@ public abstract class Offer {
 		StringBuilder output = new StringBuilder();
 		
 		if (getDiscountAmount() > 0) {
-			output.append(getName() +": You saved " + getDiscountAmount() + " for buying " + getQuantity() + " x " + getProduct().getName());
+			output.append(getName() +": You saved " + Utils.df.format(getDiscountAmount()) + " for buying " + getQuantity() + " x " + getProduct().getName());
 		}
 		if (!freeProducts.isEmpty()) {
 			output.append(getName() +": You got some free items");

@@ -1,13 +1,15 @@
 package es.cboot.fruitshop.model;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.cboot.fruitshop.exceptions.ProductNotFoundException;
 import es.cboot.fruitshop.model.offers.Offer;
-import es.cboot.fruitshop.model.offers.OfferBuy3PearTake2;
+import es.cboot.fruitshop.model.offers.OfferBuyXPayY;
 import es.cboot.fruitshop.model.offers.OfferDirectDiscountForEvery4inPears;
 import es.cboot.fruitshop.model.offers.OfferFreeOrangeEvery2Pears;
+import es.cboot.fruitshop.services.GetProductFromStoreUseCase;
+import es.cboot.fruitshop.utils.Utils;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -23,10 +25,11 @@ public class Store {
 	@Getter
 	private List<Offer> availableOffers = new ArrayList<>();
 	
-    private static DecimalFormat df = new DecimalFormat("#.##");
 
     
 	public String process() {
+		initOffers();
+		
 		double subTotal = 0;
 		double totalDiscount = 0;
 		List<String> appliedOffersMessage = new ArrayList<>();
@@ -57,15 +60,26 @@ public class Store {
 				output.append(anOfferMessage + "\n");
 			}
 			
-			output.append("You save " + df.format(totalDiscount) + " from applied offers\n");
+			output.append("You save " + Utils.df.format(totalDiscount) + " from applied offers\n");
 		}
 		
 		
 		
-		output.append("Grand total: " + df.format((subTotal - totalDiscount)));
+		output.append("Grand total: " + Utils.df.format((subTotal - totalDiscount)));
 		return output.toString();
 	}
 
+	private void initOffers() {
+		try {
+			availableOffers.add(new OfferBuyXPayY(GetProductFromStoreUseCase.getInstance().getProduct("Apple"), 3, 2));
+		} catch (ProductNotFoundException e) {
+			e.printStackTrace();
+			System.err.println("Disabling offer due to unavailable product");
+		}
+		availableOffers.add(new OfferFreeOrangeEvery2Pears());
+		availableOffers.add(new OfferDirectDiscountForEvery4inPears());
+	}
+	
 	private static Store instance;
 	
 	public static Store getInstance() {
@@ -76,8 +90,7 @@ public class Store {
 	}
 	
 	private Store() {
-		availableOffers.add(new OfferBuy3PearTake2());
-		availableOffers.add(new OfferFreeOrangeEvery2Pears());
-		availableOffers.add(new OfferDirectDiscountForEvery4inPears());
+
 	}
+	
 }
