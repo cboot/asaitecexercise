@@ -1,0 +1,3 @@
+- Por ahora no añado logging, evito perder tiempo en scaffolding
+- La aplicación espera que los ficheros tengan codificación UTF-8
+- Diseño los servicios siguiendo el patron SOLID Single Responsibility, esto esto es, un servicio por cada caso de uso. Esto debería ir con inyección de dependencias, no hay tiempo. En su defecto debería ir con factorías, si me da tiempo lo haré, mientras tanto instancio singletones para cada servicio.
