@@ -1,5 +1,6 @@
 package es.cboot.fruitshop.model;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +23,9 @@ public class Store {
 	@Getter
 	private List<Offer> availableOffers = new ArrayList<>();
 	
+    private static DecimalFormat df = new DecimalFormat("#.##");
+
+    
 	public String process() {
 		double subTotal = 0;
 		double totalDiscount = 0;
@@ -53,12 +57,12 @@ public class Store {
 				output.append(anOfferMessage + "\n");
 			}
 			
-			output.append("You save " + totalDiscount + " from applied offers\n");
+			output.append("You save " + df.format(totalDiscount) + " from applied offers\n");
 		}
 		
 		
 		
-		output.append("Grand total: " + (subTotal - totalDiscount));
+		output.append("Grand total: " + df.format((subTotal - totalDiscount)));
 		return output.toString();
 	}
 
