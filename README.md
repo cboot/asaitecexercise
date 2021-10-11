@@ -1,6 +1,7 @@
 # Asaitec fruitshop exercise
 ## Usage
 java -jar fruitshop.jar path/to/products.txt path/to/order.txt
+Both products.txt and order.txt are expected to have a header line, so items must start from second row.
 
 ## Notes
 The strategy for the Direct discount offer and Free item should have been parametrized, at least within the constructor as I managed to do in the OferXPayY, just didn't have the time to do with all 3 offers.
